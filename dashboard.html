@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nr-global Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="assets/geltro.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <div class="header">
+      <div class="brand">
+        <img src="assets/geltro.svg" alt="nr-global" class="logo" />
+        <h2>nr-global</h2>
+      </div>
+      <div class="balance">
+        <label>Your Balance</label>
+        <input id="balanceBox" type="text" readonly />
+        <button id="logoutBtn" class="secondary">Logout</button>
+        <a id="adminLink" class="link" href="admin.html" style="display:none">Admin</a>
+        <a class="link" href="affiliate.html">Affiliate</a>
+        <button id="notifBtn" class="secondary">Notifications <span id="notifBadgeCount" class="header-badge"></span></button>
+      </div>
+    </div>
+    <div class="main">
+      <div class="side-nav">
+        <div class="user-card">
+          <div class="avatar"></div>
+          <div class="user-name" id="navUserName"></div>
+        </div>
+        <ul class="menu">
+          <li><button class="nav-link" data-key="notif"><span class="diamond"></span>Notifications</button></li>
+          <li><button class="nav-link" data-key="profile"><span class="diamond"></span>Profile</button></li>
+          <li><button class="nav-link" data-key="kyc"><span class="diamond"></span>KYC Verification</button></li>
+          <li><button class="nav-link" data-key="deposit"><span class="diamond"></span>Deposit</button></li>
+          <li><button class="nav-link" data-key="withdraw"><span class="diamond"></span>Withdrawal</button></li>
+          <li><button class="nav-link" data-key="account"><span class="diamond"></span>Account Details</button></li>
+        </ul>
+      </div>
+      <div class="sections">
+      <div class="card" id="depositCard">
+        <h3>Deposit</h3>
+        <div class="row">
+          <input id="depositAmount" type="number" placeholder="Minimum deposit $10 — USDT TRC20 (TRON)" />
+          <button id="depositUSTD" class="warning">Copy USDT address</button>
+          <button id="depositSubmit">Submit Deposit</button>
+        </div>
+        <div id="depositCopyMsg" class="muted"></div>
+        <div id="depositUnderReview" class="muted"></div>
+        <table class="history" id="depositHistoryTable">
+          <thead><tr><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+      <div class="card" id="withdrawCard">
+        <h3>Withdrawal</h3>
+        <div class="row">
+          <input id="withdrawAmount" type="number" placeholder="Minimum withdrawal is 10$" />
+          <button id="withdrawUSTD" class="warning">Only USDT TRC20 network</button>
+        </div>
+        <div class="row">
+          <input id="walletAddress" type="text" placeholder="kindly insert wallet address of TRC20 Network" />
+          <button id="withdrawSubmit">Submit</button>
+        </div>
+        <div id="withdrawMessage" class="muted"></div>
+        <div id="withdrawUnderReview" class="muted"></div>
+        <div class="row" style="margin-top:10px; flex-wrap:wrap; gap:5px;">
+          <input id="withStart" type="date" placeholder="Start Date" />
+          <input id="withEnd" type="date" placeholder="End Date" />
+          <button id="withApply">Apply Filter</button>
+          <button id="withDownload" class="secondary">Download PDF</button>
+        </div>
+        <table class="history" id="withdrawHistoryTable">
+          <thead><tr><th>Amount</th><th>Wallet</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card" id="notifCard">
+        <h3>Notifications</h3>
+        <div class="row"><button id="markAllReadUser">Mark all as read</button></div>
+        <table class="history" id="notifTable">
+          <thead><tr><th>Message</th><th>Date</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card" id="kycCard">
+        <h3>KYC Verification</h3>
+        <div class="row">
+          <input id="kycUserEmail" type="email" placeholder="User" readonly />
+          <input id="kycFullName" type="text" placeholder="Full name" readonly />
+          <input id="kycIdNumber" type="text" placeholder="Government ID number" />
+          <input id="kycCountry" type="text" placeholder="Country" />
+        </div>
+        <div class="row">
+          <input id="kycIdPhoto" type="file" accept="image/*" />
+          <input id="kycSelfie" type="file" accept="image/*" />
+          <img id="kycIdPhotoPreview" class="kyc-thumb" alt="ID" />
+          <img id="kycSelfiePreview" class="kyc-thumb" alt="Selfie" />
+        </div>
+        <div class="row">
+          <button id="kycSubmit">Submit KYC</button>
+        </div>
+        <div id="kycStatusMsg" class="muted"></div>
+      </div>
+      <div class="card" id="profileCard">
+        <h3>Profile</h3>
+        <div class="row">
+          <input id="profName" type="text" placeholder="User name" />
+          <input id="profEmail" type="email" placeholder="Gmail" readonly />
+          <input id="profPhone" type="tel" placeholder="Phone number" />
+        </div>
+        <div class="row">
+          <input id="profWallet" type="text" placeholder="Wallet address (USDT TRC20)" />
+          <button id="profSave">Save Profile</button>
+          <button id="profConfirmWallet" class="secondary">Confirm Wallet</button>
+        </div>
+        <div id="profMsg" class="muted"></div>
+      </div>
+      <div class="card" id="accountDetailsCard">
+        <h3>Account Details</h3>
+        <div class="row">
+          <select id="accType">
+            <option value="all">All</option>
+            <option value="reward">Rewards</option>
+            <option value="profit">Profit</option>
+            <option value="loss">Loss</option>
+            <option value="team_reward">Team Rewards</option>
+            <option value="deposit">Deposit</option>
+            <option value="withdrawal">Withdrawal</option>
+          </select>
+          <input id="accStart" type="date" />
+          <input id="accEnd" type="date" />
+          <button id="accApply">Apply</button>
+        </div>
+        <div class="table-container">
+          <table class="history" id="accountDetailsTable">
+            <thead><tr><th>Type</th><th>Amount</th><th>Note</th><th>Date</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card plans">
+      <h3>Plan section -------> Random Earning</h3>
+      <div class="plan" data-id="random1"><div>One day lockup</div><div><span class="status" id="random1Status">inactive</span></div><div><button class="activate-random" data-id="random1">activation</button></div></div>
+      <div class="plan" data-id="random7"><div>7 days lockup</div><div><span class="status" id="random7Status">inactive</span></div><div><button class="activate-random" data-id="random7">activation</button></div></div>
+      <div class="plan" data-id="random30"><div>30 days lockup</div><div><span class="status" id="random30Status">inactive</span></div><div><button class="activate-random" data-id="random30">activation</button></div></div>
+    </div>
+    <div class="card plans">
+      <h3>Plan Section---------> Fixed Earning</h3>
+      <div class="plan" data-id="plan1"><div>One week, return <strong>14%</strong></div><div><span class="status" id="plan1Status">inactive</span></div><div><button class="activate" data-id="plan1">activation</button></div></div>
+      <div class="plan" data-id="plan2"><div>Two week, return <strong>30%</strong></div><div><span class="status" id="plan2Status">inactive</span></div><div><button class="activate" data-id="plan2">activation</button></div></div>
+      <div class="plan" data-id="plan3"><div>One month, return <strong>70%</strong></div><div><span class="status" id="plan3Status">inactive</span></div><div><button class="activate" data-id="plan3">activation</button></div></div>
+      <div class="plan" data-id="plan4"><div>three months, return <strong>225%</strong></div><div><span class="status" id="plan4Status">inactive</span></div><div><button class="activate" data-id="plan4">activation</button></div></div>
+      <div class="plan" data-id="plan5"><div>six months, return <strong>480%</strong></div><div><span class="status" id="plan5Status">inactive</span></div><div><button class="activate" data-id="plan5">activation</button></div></div>
+      <div class="plan" data-id="plan6"><div>One year, return <strong>1030%</strong></div><div><span class="status" id="plan6Status">inactive</span></div><div><button class="activate" data-id="plan6">activation</button></div></div>
+    </div>
+    <div class="footer">
+      <div class="muted">© 2025 nr-global.com</div>
+      <div class="icons">
+        <a class="icon" href="https://whatsapp.com/channel/0029Vb6zCQTDuMRh4Xp9wS11" aria-label="Twitter">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 12 7v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="icon" href="https://whatsapp.com/channel/0029Vb6zCQTDuMRh4Xp9wS11" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M22 12a10 10 0 1 0-11.5 9.95v-7.04H8v-2.91h2.5V9.5c0-2.46 1.46-3.82 3.7-3.82 1.07 0 2.19.19 2.19.19v2.4h-1.24c-1.22 0-1.6.76-1.6 1.54v1.85H16.4l-.4 2.91h-2.25v7.04A10 10 0 0 0 22 12"/></svg>
+        </a>
+        <a class="icon" href="https://whatsapp.com/channel/0029Vb6zCQTDuMRh4Xp9wS11" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>
+        </a>
+        <a class="icon" href="https://whatsapp.com/channel/0029Vb6zCQTDuMRh4Xp9wS11" aria-label="Whatsapp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/chat.js"></script>
+  <script src="scripts/dashboard.js"></script>
+  <button class="ai-toggle" aria-label="Open AI chat">
+    <img src="assets/geltro.svg" alt="AI" />
+  </button>
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-header"><span class="ai-title">Live Support</span><button class="ai-close" id="aiClose">×</button></div>
+    <div class="ai-messages" id="aiMessages"></div>
+    <div class="ai-input">
+      <input id="aiInput" type="text" placeholder="Type your message..." />
+      <input id="aiFile" type="file" accept="image/*" />
+      <button id="aiSend">Send</button>
+    </div>
+  </div>
+</body>
+</html>

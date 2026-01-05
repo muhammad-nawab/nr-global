@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nr-global Admin</title>
+  <link rel="icon" type="image/svg+xml" href="assets/geltro.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <div class="header">
+      <div class="brand">
+        <img src="assets/geltro.svg" alt="nr-global" class="logo" />
+        <h2>Admin</h2>
+      </div>
+      <div class="balance">
+        <button id="backBtn" class="secondary">Back</button>
+        <a class="link" href="admin_clients.html">Active Clients</a>
+        <span class="muted">Select Date</span>
+        <select id="navDateSelect">
+          <option value="today">Today</option>
+          <option value="7">Last 7 Days</option>
+          <option value="30">Last 30 Days</option>
+          <option value="range">Custom range</option>
+        </select>
+        <input id="navStart" type="date" style="display:none" />
+        <input id="navEnd" type="date" style="display:none" />
+        <button id="navApplyRange" style="display:none">Apply</button>
+        <button id="adminNotifBtn" class="secondary">Notifications <span id="adminNotifBadgeCount" class="header-badge"></span></button>
+      </div>
+    </div>
+    <div class="main">
+      <div class="side-nav">
+        <div class="user-card">
+          <div class="avatar"></div>
+          <div class="user-name" id="adminNavUserName"></div>
+        </div>
+        <ul class="menu">
+          <li><button class="nav-link" data-admin-key="notifications"><span class="diamond"></span>Notifications</button></li>
+          <li><button class="nav-link" data-admin-key="pendingDeposits"><span class="diamond"></span>Pending Deposits</button></li>
+          <li><button class="nav-link" data-admin-key="pendingWithdrawals"><span class="diamond"></span>Pending Withdrawals</button></li>
+          <li><button class="nav-link" data-admin-key="approvedDeposits"><span class="diamond"></span>Approved Deposits</button></li>
+          <li><button class="nav-link" data-admin-key="approvedWithdrawals"><span class="diamond"></span>Approved Withdrawals</button></li>
+          <li><button class="nav-link" data-admin-key="reward"><span class="diamond"></span>Reward Distribution</button></li>
+          <li><button class="nav-link" data-admin-key="kyc"><span class="diamond"></span>KYC</button></li>
+          <li><button class="nav-link" data-admin-key="activation"><span class="diamond"></span>Activation Requests</button></li>
+          <li><button class="nav-link" data-admin-key="users"><span class="diamond"></span>Users List</button></li>
+          <li><button class="nav-link" data-admin-key="wallet"><span class="diamond"></span>Wallet Update</button></li>
+          <li><button class="nav-link" data-admin-key="database"><span class="diamond"></span>Database</button></li>
+          <li><button class="nav-link" data-admin-key="subadmins"><span class="diamond"></span>Sub Admins</button></li>
+        </ul>
+      </div>
+      <div class="sections">
+      <div class="card" id="cardPendingDeposits">
+        <h3>Pending Deposits</h3>
+        <div class="table-container">
+          <table class="history" id="adminDeposits">
+            <thead><tr><th>User</th><th>Amount</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="cardNotifications">
+        <h3>Notifications</h3>
+        <div class="row"><button id="markAllReadAdmin">Mark all as read</button></div>
+        <table class="history" id="adminNotifTable">
+          <thead><tr><th>Message</th><th>Date</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card" id="cardRewardDistribution">
+        <h3>Reward Distribution</h3>
+        <div class="row">
+          <input id="rdProfit" type="number" placeholder="Profit/Loss amount ($)" />
+          <input id="rdFeePct" type="number" placeholder="Fee % (profit only)" value="20" />
+          <button id="rdCompute">Compute</button>
+          <button id="rdApply">Apply Distribution</button>
+        </div>
+        <div class="row">
+          <input id="rdEmail" type="email" placeholder="User email" />
+          <input id="rdAdjAmt" type="number" placeholder="Adjust amount ($)" />
+          <button id="rdCredit">Credit</button>
+          <button id="rdDebit" class="secondary">Debit</button>
+        </div>
+        <div class="table-container">
+          <table class="history" id="rewardDistributionTable">
+            <thead><tr><th>User</th><th>Lockup Capital</th><th>Share</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="row"><div id="rdSummary" class="muted"></div></div>
+      </div>
+      <div class="card" id="cardActivationRequests">
+        <h3>Activation Requests</h3>
+        <div class="table-container">
+          <table class="history" id="activationRequests">
+            <thead><tr><th>User</th><th>Plan</th><th>Capital</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="cardPendingWithdrawals">
+        <h3>Pending Withdrawals</h3>
+        <div class="table-container">
+          <table class="history" id="adminWithdrawals">
+            <thead><tr><th>User</th><th>Amount</th><th>Wallet</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="cardApprovedDeposits">
+        <h3>Approved Deposits</h3>
+        <div class="row">
+          <button id="depApprovedToday">Today</button>
+          <button id="depApproved7">Last 7 days</button>
+          <button id="depApproved30">Last 30 days</button>
+          <input id="depStart" type="date" />
+          <input id="depEnd" type="date" />
+          <button id="depApplyRange">Apply</button>
+          <button id="depApprovedDownload" class="secondary">Download PDF</button>
+        </div>
+        <div class="table-container">
+          <table class="history" id="approvedDeposits">
+            <thead><tr><th>User</th><th>Transaction ID</th><th>Amount</th><th>Date</th><th>Approved IP</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="cardApprovedWithdrawals">
+        <h3>Approved Withdrawals</h3>
+        <div class="row">
+          <button id="withApprovedToday">Today</button>
+          <button id="withApproved7">Last 7 days</button>
+          <button id="withApproved30">Last 30 days</button>
+          <input id="withStart" type="date" />
+          <input id="withEnd" type="date" />
+          <button id="withApplyRange">Apply</button>
+          <button id="withApprovedDownload" class="secondary">Download PDF</button>
+        </div>
+        <div class="table-container">
+          <table class="history" id="approvedWithdrawals">
+            <thead><tr><th>User</th><th>Transaction ID</th><th>Amount</th><th>Date</th><th>Approved IP</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="subAdminCard">
+        <h3>Sub Admins</h3>
+        <div class="row">
+          <input id="subAdminEmail" type="email" placeholder="User email" />
+          <button id="subAdminAdd">Make Sub Admin</button>
+        </div>
+        <div class="table-container">
+          <table class="history" id="subAdminTable">
+            <thead><tr><th>User</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="walletUpdateCard">
+        <h3>User Wallet Update</h3>
+        <div class="row">
+          <input id="walletUserEmail" type="email" placeholder="User email" />
+          <input id="walletNewAddr" type="text" placeholder="New wallet address (USDT TRC20)" />
+          <button id="walletUpdateBtn">Update Wallet</button>
+        </div>
+        <div id="walletUpdateMsg" class="muted"></div>
+      </div>
+      <div class="card" id="usersListCard">
+        <h3>Users List</h3>
+        <div class="row">
+          <button id="usersToday">Today</button>
+          <button id="users7">Last 7 days</button>
+          <button id="users30">Last 30 days</button>
+          <input id="usersStart" type="date" />
+          <input id="usersEnd" type="date" />
+          <button id="usersApply">Apply</button>
+          <button id="usersDownloadPdf" class="secondary">Download PDF</button>
+        </div>
+        <div class="table-container">
+          <table class="history" id="usersListTable">
+            <thead><tr>
+              <th>Inviter Name</th><th>Inviter Gmail</th>
+              <th>User Name</th><th>User Gmail</th><th>Phone</th><th>Wallet</th>
+              <th>Balance</th><th>Deposit</th><th>Withdrawal</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="cardDatabase">
+        <h3>Database</h3>
+        <div class="row">
+          <div>Today deposit: <strong id="statTodayDeposit">$0.00</strong></div>
+          <div>Today withdrawal: <strong id="statTodayWithdrawal">$0.00</strong></div>
+          <div>Current Balance (deposit - withdrawal): <strong id="statCurrentBalance">$0.00</strong></div>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <span class="muted">Select</span>
+          <select id="dbTypeSelect">
+            <option value="deposit">Deposit details</option>
+            <option value="withdrawal">Withdrawal details</option>
+          </select>
+          <button id="dbToday">Today</button>
+          <button id="db7">Last 7 days</button>
+          <button id="db30">Last 30 days</button>
+          <input id="dbStart" type="date" />
+          <input id="dbEnd" type="date" />
+          <button id="dbApply">Apply</button>
+          <button id="dbDownloadPdf" class="secondary">Download PDF</button>
+        </div>
+      </div>
+      <div class="card" id="cardKyc">
+        <h3>KYC Requests</h3>
+        <div class="table-container">
+          <table class="history" id="kycTable">
+            <thead><tr><th>User</th><th>Full Name</th><th>ID Number</th><th>Country</th><th>ID Photo</th><th>Selfie</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="muted">© 2025 nr-global.com</div>
+    <div class="icons">
+      <a class="icon" href="#" aria-label="Twitter">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 12 7v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+      </a>
+      <a class="icon" href="#" aria-label="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M22 12a10 10 0 1 0-11.5 9.95v-7.04H8v-2.91h2.5V9.5c0-2.46 1.46-3.82 3.7-3.82 1.07 0 2.19.19 2.19.19v2.4h-1.24c-1.22 0-1.6.76-1.6 1.54v1.85H16.4l-.4 2.91h-2.25v7.04A10 10 0 0 0 22 12"/></svg>
+      </a>
+      <a class="icon" href="#" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>
+      </a>
+      <a class="icon" href="#" aria-label="Whatsapp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015 .99 .472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34 .616 .287 2.035 .888 2.722 .888 .817 0 2.15-.515 2.478-1.318 .13-.33 .244-.73 .244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964 .53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z"/></svg>
+      </a>
+    </div>
+  </div>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/chat.js"></script>
+  <script src="scripts/admin.js"></script>
+  <button class="ai-toggle" aria-label="Open AI chat">
+    <img src="assets/geltro.svg" alt="AI" />
+  </button>
+    <div class="ai-panel" id="aiPanel">
+    <div class="ai-header"><span class="ai-title">Live Support</span><button class="ai-close" id="aiClose">×</button></div>
+    <div class="row" style="padding:8px 10px">
+      <input id="chatTargetSearch" type="text" placeholder="Search user" />
+      <select id="chatTargetSelect"></select>
+    </div>
+    <div class="ai-messages" id="aiMessages"></div>
+    <div class="ai-input">
+      <input id="aiInput" type="text" placeholder="Type your message..." />
+      <input id="aiFile" type="file" accept="image/*" />
+      <button id="aiSend">Send</button>
+    </div>
+  </div>
+</body>
+</html>

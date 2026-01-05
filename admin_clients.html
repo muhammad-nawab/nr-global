@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Active Clients - Admin</title>
+  <link rel="icon" type="image/svg+xml" href="assets/geltro.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <div class="header">
+      <div class="brand">
+        <img src="assets/geltro.svg" alt="nr-global" class="logo" />
+        <h2>Active Clients</h2>
+      </div>
+      <div class="balance">
+        <a class="link" href="admin.html">Back to Admin</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Clients with Active Plans</h3>
+      <table class="history" id="clientsTable">
+        <thead><tr><th>User</th><th>Total Verified Deposit</th><th>Your Balance</th><th>Active Plan(s)</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <div class="muted">© 2025 nr-global.com</div>
+      <div class="icons">
+        <a class="icon" href="#" aria-label="Twitter">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 12 7v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="icon" href="#" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M22 12a10 10 0 1 0-11.5 9.95v-7.04H8v-2.91h2.5V9.5c0-2.46 1.46-3.82 3.7-3.82 1.07 0 2.19.19 2.19.19v2.4h-1.24c-1.22 0-1.6.76-1.6 1.54v1.85H16.4l-.4 2.91h-2.25v7.04A10 10 0 0 0 22 12"/></svg>
+        </a>
+        <a class="icon" href="#" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm6.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>
+        </a>
+        <a class="icon" href="#" aria-label="Whatsapp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1d4ed8"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015 .99 .472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34 .616 .287 2.035 .888 2.722 .888 .817 0 2.15-.515 2.478-1.318 .13-.33 .244-.73 .244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964 .53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/chat.js"></script>
+  <script src="scripts/admin_clients.js"></script>
+  <button class="ai-toggle" aria-label="Open Live chat">
+    <img src="assets/geltro.svg" alt="Chat" />
+  </button>
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-header"><span class="ai-title">Live Support</span><button class="ai-close" id="aiClose">×</button></div>
+    <div class="ai-messages" id="aiMessages"></div>
+    <div class="ai-input">
+      <input id="aiInput" type="text" placeholder="Type your message..." />
+      <button id="aiSend">Send</button>
+    </div>
+  </div>
+</body>
+</html>
